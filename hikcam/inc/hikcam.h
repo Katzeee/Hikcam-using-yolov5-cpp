@@ -1,5 +1,4 @@
-#ifndef __HIK_CAM_
-#define __HIK_CAM_
+#pragma once
 
 #include <iostream>
 #include <cstring>
@@ -9,10 +8,10 @@
 #include <cstdlib>
 #include "HCNetSDK.h"
 #include "LinuxPlayM4.h"
-#include "YoloV5.h"
+#include "yolov5.h"
 #include <opencv2/opencv.hpp>
 
-extern std::unique_ptr<YoloV5> yolo;
+extern std::unique_ptr<yolov5> yolo;
 extern std::map<int, std::string> labels;
 
 void CALLBACK globalDecCBFun(int nPort, char *pBuf, int nSize, FRAME_INFO *pFrameInfo, void *nUser, int nReserved2);
@@ -37,4 +36,3 @@ private:
     friend void CALLBACK globalDecCBFun(int nPort, char *pBuf, int nSize, FRAME_INFO *pFrameInfo, void *nUser, int nReserved2);
     friend void CALLBACK globalRealDataCallBack_V30(LONG lPlayHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, void *pUser);
 };
-#endif

@@ -66,8 +66,8 @@ void CALLBACK globalDecCBFun(int nPort, char *pBuf, int nSize, FRAME_INFO *pFram
         std::vector<torch::Tensor> r = yolo->prediction(globalBGRImage);
 		clock_t ends = clock();
 		std::cout << "Running Time : " << (double)(ends - start) / CLOCKS_PER_SEC << std::endl;
-
-        globalBGRImage = yolo->drawRectangle(globalBGRImage, r[0], labels);
+        std::cout << r << std::endl;
+        globalBGRImage = yolo->drawRectangle(globalBGRImage, r[0], labels); // using r[0] because r is std::vector
         cv::putText(globalBGRImage, cv::String(std::to_string(PlayM4_GetCurrentFrameRate(pHikcam->nPort))), cv::Point(50, 50), cv::FONT_HERSHEY_SCRIPT_SIMPLEX, 2, cv::Scalar::all(255));
 
         cv::imshow("RGBImage1", globalBGRImage);

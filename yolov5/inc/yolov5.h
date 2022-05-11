@@ -55,9 +55,9 @@ private:
 };
 
 /**
- * YoloV5 的实现类
+ * yolov5 的实现类
  */
-class YoloV5
+class yolov5
 {
 public:
     /**
@@ -69,7 +69,7 @@ public:
 	 * @param confThres 非极大值抑制中的 scoreThresh
 	 * @param iouThres 非极大值抑制中的 iouThresh
      */
-	YoloV5(std::string ptFile, bool isCuda = false, bool isHalf = false, int height = 640, int width = 640,  float confThres = 0.25, float iouThres = 0.45);
+	yolov5(std::string ptFile, bool isCuda = false, bool isHalf = false, int height = 640, int width = 640,  float confThres = 0.25, float iouThres = 0.45);
 	/**
 	 * 预测函数
 	 * @param data 语言预测的数据格式 (batch, rgb, height, width)

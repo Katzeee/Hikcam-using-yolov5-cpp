@@ -1,6 +1,6 @@
-#include "YoloV5.h"
+#include "yolov5.h"
 
-YoloV5::YoloV5(std::string ptFile, bool isCuda, bool isHalf, int height, int width, float confThres, float iouThres)
+yolov5::yolov5(std::string ptFile, bool isCuda, bool isHalf, int height, int width, float confThres, float iouThres)
 {
 	try {
 		model = torch::jit::load(ptFile);
@@ -27,7 +27,7 @@ YoloV5::YoloV5(std::string ptFile, bool isCuda, bool isHalf, int height, int wid
 	std::srand(seed);
 }
 
-std::vector<torch::Tensor> YoloV5::non_max_suppression(torch::Tensor prediction, float confThres, float iouThres)
+std::vector<torch::Tensor> yolov5::non_max_suppression(torch::Tensor prediction, float confThres, float iouThres)
 {
 	torch::Tensor xc = prediction.select(2, 4) > confThres;
 	int maxWh = 4096;
@@ -65,12 +65,12 @@ std::vector<torch::Tensor> YoloV5::non_max_suppression(torch::Tensor prediction,
 	return output;
 }
 
-cv::Scalar YoloV5::getRandScalar()
+cv::Scalar yolov5::getRandScalar()
 {
 	return cv::Scalar(std::rand() % 256, std::rand() % 256, std::rand() % 256);
 }
 
-cv::Mat YoloV5::img2RGB(cv::Mat img)
+cv::Mat yolov5::img2RGB(cv::Mat img)
 {
 	int imgC = img.channels();
 	if (imgC == 1)
@@ -84,7 +84,7 @@ cv::Mat YoloV5::img2RGB(cv::Mat img)
 	return img;
 }
 
-torch::Tensor YoloV5::img2Tensor(cv::Mat img)
+torch::Tensor yolov5::img2Tensor(cv::Mat img)
 {
 	torch::Tensor data = torch::from_blob(img.data, {(int)height, (int)width, 3 }, torch::kByte);
 	data = data.permute({ 2, 0, 1 });
@@ -94,7 +94,7 @@ torch::Tensor YoloV5::img2Tensor(cv::Mat img)
 	return data;
 }
 
-torch::Tensor YoloV5::xywh2xyxy(torch::Tensor x)
+torch::Tensor yolov5::xywh2xyxy(torch::Tensor x)
 {
 	torch::Tensor y = x.clone();
 	y.select(1, 0) = x.select(1, 0) - x.select(1, 2) / 2;
@@ -104,7 +104,7 @@ torch::Tensor YoloV5::xywh2xyxy(torch::Tensor x)
 	return y;
 }
 
-torch::Tensor YoloV5::nms(torch::Tensor bboxes, torch::Tensor scores, float thresh)
+torch::Tensor yolov5::nms(torch::Tensor bboxes, torch::Tensor scores, float thresh)
 {
 	auto x1 = bboxes.select(1, 0);
 	auto y1 = bboxes.select(1, 1);
@@ -148,7 +148,7 @@ torch::Tensor YoloV5::nms(torch::Tensor bboxes, torch::Tensor scores, float thre
 	return torch::tensor(keep);
 }
 
-std::vector<torch::Tensor> YoloV5::sizeOriginal(std::vector<torch::Tensor> result, std::vector<ImageResizeData> imgRDs)
+std::vector<torch::Tensor> yolov5::sizeOriginal(std::vector<torch::Tensor> result, std::vector<ImageResizeData> imgRDs)
 {
 	std::vector<torch::Tensor> resultOrg;
 	for (int i = 0; i < result.size(); i++)
@@ -193,7 +193,7 @@ std::vector<torch::Tensor> YoloV5::sizeOriginal(std::vector<torch::Tensor> resul
 	return resultOrg;
 }
 
-std::vector<torch::Tensor> YoloV5::prediction(torch::Tensor data)
+std::vector<torch::Tensor> yolov5::prediction(torch::Tensor data)
 {
 	if (!data.is_cuda() && this->isCuda) 
 	{
@@ -211,13 +211,13 @@ std::vector<torch::Tensor> YoloV5::prediction(torch::Tensor data)
 	return non_max_suppression(pred, confThres, iouThres);
 }
 
-std::vector<torch::Tensor> YoloV5::prediction(std::string filePath)
+std::vector<torch::Tensor> yolov5::prediction(std::string filePath)
 {
 	cv::Mat img = cv::imread(filePath);
 	return prediction(img);
 }
 
-std::vector<torch::Tensor> YoloV5::prediction(cv::Mat img)
+std::vector<torch::Tensor> yolov5::prediction(cv::Mat img)
 {
 	ImageResizeData imgRD = resize(img);
 	cv::Mat reImg = img2RGB(imgRD.getImg());
@@ -228,7 +228,7 @@ std::vector<torch::Tensor> YoloV5::prediction(cv::Mat img)
 	return sizeOriginal(result, imgRDs);
 }
 
-std::vector<torch::Tensor> YoloV5::prediction(std::vector<cv::Mat> imgs)
+std::vector<torch::Tensor> yolov5::prediction(std::vector<cv::Mat> imgs)
 {
 	std::vector<ImageResizeData> imageRDs;
 	std::vector<torch::Tensor> datas;
@@ -244,7 +244,7 @@ std::vector<torch::Tensor> YoloV5::prediction(std::vector<cv::Mat> imgs)
 	return sizeOriginal(result, imageRDs);
 }
 
-ImageResizeData YoloV5::resize(cv::Mat img, int height, int width)
+ImageResizeData yolov5::resize(cv::Mat img, int height, int width)
 {
 	ImageResizeData imgResizeData;
 	int w = img.cols, h = img.rows;
@@ -273,40 +273,40 @@ ImageResizeData YoloV5::resize(cv::Mat img, int height, int width)
 	return imgResizeData;
 }
 
-ImageResizeData YoloV5::resize(cv::Mat img)
+ImageResizeData yolov5::resize(cv::Mat img)
 {
-	return YoloV5::resize(img, height, width);
+	return yolov5::resize(img, height, width);
 }
 
-std::vector<ImageResizeData> YoloV5::resize(std::vector<cv::Mat> imgs, int height, int width)
+std::vector<ImageResizeData> yolov5::resize(std::vector<cv::Mat> imgs, int height, int width)
 {
 	std::vector<ImageResizeData> imgRDs;
 	for (int i = 0;i < imgs.size();i++)
 	{
-		imgRDs.push_back(YoloV5::resize(imgs[i], height, width));
+		imgRDs.push_back(yolov5::resize(imgs[i], height, width));
 	}
 	return imgRDs;
 }
 
-std::vector<ImageResizeData> YoloV5::resize(std::vector<cv::Mat> imgs)
+std::vector<ImageResizeData> yolov5::resize(std::vector<cv::Mat> imgs)
 {
-	return YoloV5::resize(imgs, height, width);
+	return yolov5::resize(imgs, height, width);
 }
 
-std::vector<cv::Mat> YoloV5::drawRectangle(std::vector<cv::Mat> imgs, std::vector<torch::Tensor> rectangles, std::map<int, std::string> labels, int thickness)
+std::vector<cv::Mat> yolov5::drawRectangle(std::vector<cv::Mat> imgs, std::vector<torch::Tensor> rectangles, std::map<int, std::string> labels, int thickness)
 {
 	std::map<int, cv::Scalar> colors;
 	return drawRectangle(imgs, rectangles, colors, labels, thickness);
 }
 
-std::vector<cv::Mat> YoloV5::drawRectangle(std::vector<cv::Mat> imgs, std::vector<torch::Tensor> rectangles, int thickness)
+std::vector<cv::Mat> yolov5::drawRectangle(std::vector<cv::Mat> imgs, std::vector<torch::Tensor> rectangles, int thickness)
 {
 	std::map<int, cv::Scalar> colors;
 	std::map<int, std::string> labels;
 	return drawRectangle(imgs, rectangles, colors, labels, thickness);
 }
 
-std::vector<cv::Mat> YoloV5::drawRectangle(std::vector<cv::Mat> imgs, std::vector<torch::Tensor> rectangles, std::map<int, cv::Scalar> colors, std::map<int, std::string> labels, int thickness)
+std::vector<cv::Mat> yolov5::drawRectangle(std::vector<cv::Mat> imgs, std::vector<torch::Tensor> rectangles, std::map<int, cv::Scalar> colors, std::map<int, std::string> labels, int thickness)
 {
 	std::vector<cv::Mat> results;
 	for (int i = 0; i < imgs.size(); i++)
@@ -316,20 +316,20 @@ std::vector<cv::Mat> YoloV5::drawRectangle(std::vector<cv::Mat> imgs, std::vecto
 	return results;
 }
 
-cv::Mat YoloV5::drawRectangle(cv::Mat img, torch::Tensor rectangle, int thickness)
+cv::Mat yolov5::drawRectangle(cv::Mat img, torch::Tensor rectangle, int thickness)
 {
 	std::map<int, cv::Scalar> colors;
 	std::map<int, std::string> labels;
 	return drawRectangle(img, rectangle, colors, labels, thickness);
 }
 
-cv::Mat YoloV5::drawRectangle(cv::Mat img, torch::Tensor rectangle, std::map<int, std::string> labels, int thickness)
+cv::Mat yolov5::drawRectangle(cv::Mat img, torch::Tensor rectangle, std::map<int, std::string> labels, int thickness)
 {
 	std::map<int, cv::Scalar> colors;
 	return drawRectangle(img, rectangle, colors, labels, thickness);
 }
 
-cv::Mat YoloV5::drawRectangle(cv::Mat img, torch::Tensor rectangle, std::map<int, cv::Scalar> colors, std::map<int, std::string> labels, int thickness)
+cv::Mat yolov5::drawRectangle(cv::Mat img, torch::Tensor rectangle, std::map<int, cv::Scalar> colors, std::map<int, std::string> labels, int thickness)
 {
 	std::map<int, cv::Scalar>::iterator it;
 	std::map<int, std::string>::iterator labelIt;
@@ -373,12 +373,12 @@ cv::Mat YoloV5::drawRectangle(cv::Mat img, torch::Tensor rectangle, std::map<int
 	return img;
 }
 
-bool YoloV5::existencePrediction(torch::Tensor clazz)
+bool yolov5::existencePrediction(torch::Tensor clazz)
 {
 	return clazz.size(0) > 0 ? true : false;
 }
 
-bool YoloV5::existencePrediction(std::vector<torch::Tensor> classs)
+bool yolov5::existencePrediction(std::vector<torch::Tensor> classs)
 {
 	for (int i = 0; i < classs.size(); i++)
 	{
