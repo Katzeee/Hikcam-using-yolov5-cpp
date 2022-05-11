@@ -5,12 +5,24 @@
 #include <memory>
 #include "yolov5.h"
 #include "hikcam.h"
+#include "jsondeal.h"
 
 std::unique_ptr<yolov5> yolo;
 std::map<int, std::string> labels;
+std::unique_ptr<JsonDeal> jsonDeal;
 
 int main(int argc, char **argv)
 {
+	jsonDeal = std::make_unique<JsonDeal>();
+	Json::Value abc;
+	abc["123"] = 123;
+	std::string hhh;
+	jsonDeal->cvtJson2String(abc, hhh);
+	std::cout << abc << std::endl;
+
+
+
+
 	std::shared_ptr<HikCam> phikcam;
 	try
 	{
@@ -21,7 +33,6 @@ int main(int argc, char **argv)
 		std::cout << e << std::endl;
 		return -1;
 	}
-
 
 	// 第二个参数为是否启用 cuda 详细用法可以参考 yolov5.h 文件
 	std::cout << torch::cuda::is_available() << std::endl;
@@ -75,7 +86,7 @@ int main(int argc, char **argv)
 			break;
 	}
 	
-	phikcam->startStream();
+	phikcam->startStream(0, 33, 0, 1, 1);
 	
 
 	return 0;

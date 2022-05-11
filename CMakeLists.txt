@@ -17,9 +17,9 @@ add_subdirectory(yolov5 yolov5)
 add_subdirectory(hikcam hikcam)
 add_subdirectory(jsondeal jsondeal)
 
-add_executable(test ${SOURCE})
+add_executable(${PROJECT_NAME} ${SOURCE})
 
 #target_link_libraries(test PRIVATE "${TORCH_LIBRARIES}" ${OpenCV_LIBRARIES})
-target_link_libraries(test ${TORCH_LIBRARIES} ${OpenCV_LIBRARIES} yolov5 hikcam jsondeal)
+target_link_libraries(${PROJECT_NAME} ${TORCH_LIBRARIES} ${OpenCV_LIBRARIES} yolov5 hikcam jsondeal)
 
 
