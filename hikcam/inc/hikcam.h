@@ -12,33 +12,34 @@
 #include "jsondeal.h"
 #include <opencv2/opencv.hpp>
 
-namespace hik {
+namespace hik
+{
 
-// label enum
-enum LABLE {
-    PERSON = 0,
-    BICYCLE,
-    CAR,
+    // label enum
+    enum LABLE
+    {
+        PERSON = 0,
+        BICYCLE,
+        CAR,
 
-};
+    };
 
 }
-
 
 extern std::unique_ptr<yolov5> yolo;
 extern std::map<int, std::string> labels;
 extern std::unique_ptr<JsonDeal> jsonDeal;
 
-void CALLBACK globalDecCBFun(int nPort, char *pBuf, int nSize, FRAME_INFO *pFrameInfo, void *nUser, int nReserved2);
-void CALLBACK globalRealDataCallBack_V30(LONG lPlayHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, void *pUser);
+void CALLBACK globalDecCBFun(int, char *, int, FRAME_INFO *, void *, int);
+void CALLBACK globalRealDataCallBack_V30(LONG, DWORD, BYTE *, DWORD, void *);
 void write2Json(torch::Tensor);
 
 class HikCam
 {
 public:
-    HikCam(std::string _ipAddr, WORD _servicePort, std::string _userNmae, std::string _userPassword);
-    ~HikCam(){}
-    int startStream(HWND _hPlayWnd, LONG _lChannel, DWORD _dwLinkMode, DWORD _bBlocked, DWORD dwDisplyBufNum);
+    HikCam(std::string, WORD, std::string, std::string);
+    ~HikCam() {}
+    int startStream(HWND, LONG, DWORD, DWORD, DWORD);
     void write2Json();
 
 private:
@@ -56,9 +57,7 @@ private:
     // login user ID, returned by login function
     int logUserID;
     // play port, returned by getport function
-    LONG palyPort; 
-    friend void CALLBACK globalDecCBFun(int nPort, char *pBuf, int nSize, FRAME_INFO *pFrameInfo, void *nUser, int nReserved2);
-    friend void CALLBACK globalRealDataCallBack_V30(LONG lPlayHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, void *pUser);
+    LONG palyPort;
+    friend void CALLBACK globalDecCBFun(int, char *, int, FRAME_INFO *, void *, int);
+    friend void CALLBACK globalRealDataCallBack_V30(LONG, DWORD, BYTE *, DWORD, void *);
 };
-
-

@@ -14,13 +14,6 @@ std::unique_ptr<JsonDeal> jsonDeal;
 int main(int argc, char **argv)
 {
 	jsonDeal = std::make_unique<JsonDeal>();
-	Json::Value abc;
-	abc["123"] = 123;
-	std::string hhh;
-	jsonDeal->cvtJson2String(abc, hhh);
-	std::cout << abc << std::endl;
-
-
 
 
 	std::shared_ptr<HikCam> phikcam;

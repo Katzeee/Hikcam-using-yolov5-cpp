@@ -33,7 +33,7 @@ HikCam::HikCam(std::string _ipAddr, WORD _servicePort, std::string _userNmae, st
 int HikCam::startStream(HWND _hPlayWnd, LONG _lChannel, DWORD _dwLinkMode, DWORD _bBlocked, DWORD _dwDisplayBufNum)
 {
     NET_DVR_PREVIEWINFO previewInfo = {0};
-    previewInfo.hPlayWnd = _hPlayWnd;  // no window handle
+    previewInfo.hPlayWnd = _hPlayWnd; // no window handle
     previewInfo.lChannel = _lChannel; // channel number
     previewInfo.dwLinkMode = _dwLinkMode;
     previewInfo.bBlocked = _bBlocked;
@@ -45,7 +45,8 @@ int HikCam::startStream(HWND _hPlayWnd, LONG _lChannel, DWORD _dwLinkMode, DWORD
                   << "ERRORID:" << NET_DVR_GetLastError() << std::endl;
         return -1;
     }
-    while (1);
+    while (1)
+        ;
     return 0;
 }
 
@@ -63,6 +64,8 @@ void CALLBACK globalDecCBFun(int _nPort, char *_pBuf, int _nSize, FRAME_INFO *_p
         cv::Mat YUVImage(_pFrameInfo->nHeight + _pFrameInfo->nHeight / 2, _pFrameInfo->nWidth, CV_8UC1, (unsigned char *)_pBuf);
 
         cv::cvtColor(YUVImage, globalBGRImage, cv::COLOR_YUV2BGR_YV12);
+
+
 
         cv::resize(globalBGRImage, globalBGRImage, cv::Size(), 0.3, 0.3);
         clock_t start = clock();
@@ -85,13 +88,13 @@ void CALLBACK globalDecCBFun(int _nPort, char *_pBuf, int _nSize, FRAME_INFO *_p
     }
 }
 
-void CALLBACK globalRealDataCallBack_V30(LONG lPlayHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, void *pUser)
+void CALLBACK globalRealDataCallBack_V30(LONG _lPlayHandle, DWORD _dwDataType, BYTE *_pBuffer, DWORD _dwBufSize, void *_pUser)
 {
-    // std::cout << time(NULL) << "\t(private_v30)Get data,the size is " << dwBufSize;
-    HikCam *pHikcam = static_cast<HikCam *>(pUser);
-    switch (dwDataType)
+    // std::cout << time(NULL) << "\t(private_v30)Get data,the size is " << _dwBufSize;
+    HikCam *pHikcam = static_cast<HikCam *>(_pUser);
+    switch (_dwDataType)
     {
-    case NET_DVR_SYSHEAD:                     //系统头
+    case NET_DVR_SYSHEAD:                        //系统头
         if (!PlayM4_GetPort(&pHikcam->palyPort)) //获取播放库未使用的通道号
         {
             std::cout << "PlayM4_GetPort ERROR!\t"
@@ -108,9 +111,9 @@ void CALLBACK globalRealDataCallBack_V30(LONG lPlayHandle, DWORD dwDataType, BYT
         {
             std::cout << "StreamOpenMode: " << PlayM4_GetStreamOpenMode(pHikcam->palyPort);
         }
-        if (dwBufSize > 0)
+        if (_dwBufSize > 0)
         {
-            if (!PlayM4_OpenStream(pHikcam->palyPort, pBuffer, dwBufSize, 1024 * 100000))
+            if (!PlayM4_OpenStream(pHikcam->palyPort, _pBuffer, _dwBufSize, 1024 * 100000))
             {
                 std::cout << "PlayM4_OpenStream ERROR!\t"
                           << "ERRORID:" << PlayM4_GetLastError(pHikcam->palyPort);
@@ -142,20 +145,12 @@ void CALLBACK globalRealDataCallBack_V30(LONG lPlayHandle, DWORD dwDataType, BYT
         }
         break;
     case NET_DVR_STREAMDATA:
-        if (dwDataType == NET_DVR_STREAMDATA) //码流数据
+        if (_dwBufSize > 0 && pHikcam->palyPort != -1)
         {
-            if (dwBufSize > 0 && pHikcam->palyPort != -1)
+            if (!PlayM4_InputData(pHikcam->palyPort, _pBuffer, _dwBufSize))
             {
-                if (!PlayM4_InputData(pHikcam->palyPort, pBuffer, dwBufSize))
-                {
-                    std::cout << "fail input data" << std::endl;
-                    std::cout << PlayM4_GetLastError(pHikcam->palyPort) << std::endl;
-                    // usleep(10000);
-                }
-                else
-                {
-                    // std::cout << "success input data" << std::endl;
-                }
+                std::cout << "fail input data" << std::endl;
+                std::cout << PlayM4_GetLastError(pHikcam->palyPort) << std::endl;
             }
         }
         break;
@@ -193,5 +188,5 @@ void write2Json(torch::Tensor _data)
     jsondata["personList"] = personList;
     std::string result;
     jsonDeal->cvtJson2String(jsondata, result);
-    std::cout << result <<std::endl;
+    std::cout << result << std::endl;
 }
