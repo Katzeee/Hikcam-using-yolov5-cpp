@@ -6,10 +6,7 @@ set(Torch_DIR /home/xac/local/libtorch/share/cmake/Torch)
 find_package(OpenCV REQUIRED)
 find_package(jsoncpp REQUIRED)
 
-find_library(hcnetsdk libhcnetsdk.so ../3rdparty/hikcamsdk/lib)
-find_library(PlayCtrl libPlayCtrl.so ../3rdparty/hikcamsdk/lib)
 
-find_library(AudioRender libAudioRender.so ../3rdparty/hikcamsdk/lib)
 
 
 find_package(Torch REQUIRED)
