@@ -3,7 +3,7 @@ project(hikcam)
 find_package(OpenCV REQUIRED)
 find_package(Torch REQUIRED)
 
-include_directories(../jsondeal/inc)
+include_directories(../src/jsondeal ../src/utools)
 find_library(hcnetsdk libhcnetsdk.so ./lib)
 find_library(PlayCtrl libPlayCtrl.so ./lib)
 

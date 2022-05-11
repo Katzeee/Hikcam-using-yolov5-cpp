@@ -8,18 +8,18 @@ find_package(jsoncpp REQUIRED)
 
 find_package(Torch REQUIRED)
 
-aux_source_directory(. SOURCE)
+aux_source_directory(./src SOURCE)
 
-include_directories(${Torch_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} yolov5/inc)
+include_directories(${Torch_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} src/yolov5)
 link_directories(/home/xac/local/libtorch/lib)
 
-add_subdirectory(yolov5 yolov5)
+add_subdirectory(src/yolov5 yolov5)
 add_subdirectory(hikcam hikcam)
-add_subdirectory(jsondeal jsondeal)
+add_subdirectory(src/jsondeal jsondeal)
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
 #target_link_libraries(test PRIVATE "${TORCH_LIBRARIES}" ${OpenCV_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} ${TORCH_LIBRARIES} ${OpenCV_LIBRARIES} yolov5 hikcam jsondeal)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${TORCH_LIBRARIES} ${OpenCV_LIBRARIES} yolov5 hikcam jsondeal)
 
 

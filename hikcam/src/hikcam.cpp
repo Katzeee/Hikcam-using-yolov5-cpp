@@ -1,6 +1,5 @@
 #include "hikcam.h"
-#include "../../utools/inc/utools.h"
-#include "../../jsondeal/inc/jsondeal.h"
+#include "utools.h"
 
 // void HikCam::camInit(std::string _ipAddr, WORD _servicePort, std::string _userNmae, std::string _userPassword)
 //{
