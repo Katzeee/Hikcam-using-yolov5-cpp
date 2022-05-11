@@ -10,13 +10,6 @@ find_package(Torch REQUIRED)
 
 include_directories(../jsondeal ../utools ./inc)
 
-#find_library(hcnetsdk libhcnetsdk.so ./lib)
-#find_library(PlayCtrl libPlayCtrl.so ./lib)
-#find_library(AudioRender libAudioRender.so ./lib)
-
-link_directories(./lib)
-
-
 
 add_library(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES} ${TORCH_LIBRARIES} ${hcnetsdk} ${PlayCtrl} AudioRender)

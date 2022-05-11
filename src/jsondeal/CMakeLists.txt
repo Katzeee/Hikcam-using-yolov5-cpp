@@ -5,9 +5,6 @@ set (SOURCES
     "jsondeal.h"
 )
 
-#find_package(jsoncpp REQUIRED)
-
-#include_directories("../../include/jsondeal")
 
 add_library(${PROJECT_NAME} ${SOURCES})
 

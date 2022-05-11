@@ -1,12 +1,5 @@
-cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
-project(cmake_opencv_torch)
-
-
-
 aux_source_directory(. SOURCE)
 
-include_directories(${Torch_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} yolov5 ../3rdparty/hikcamsdk/inc)
-link_directories(/home/xac/local/libtorch/lib)
 
 add_subdirectory(yolov5 yolov5)
 add_subdirectory(hikcam hikcam)
