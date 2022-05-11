@@ -10,7 +10,7 @@ find_package(Torch REQUIRED)
 
 aux_source_directory(./src SOURCE)
 
-include_directories(${Torch_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} src/yolov5)
+include_directories(${Torch_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} src/yolov5 src/hikcam/inc)
 link_directories(/home/xac/local/libtorch/lib)
 
 add_subdirectory(src/yolov5 yolov5)
