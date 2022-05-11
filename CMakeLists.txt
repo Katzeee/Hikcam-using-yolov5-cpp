@@ -14,7 +14,7 @@ include_directories(${Torch_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS} src/yolov5)
 link_directories(/home/xac/local/libtorch/lib)
 
 add_subdirectory(src/yolov5 yolov5)
-add_subdirectory(hikcam hikcam)
+add_subdirectory(src/hikcam hikcam)
 add_subdirectory(src/jsondeal jsondeal)
 
 add_executable(${PROJECT_NAME} ${SOURCE})

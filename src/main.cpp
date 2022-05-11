@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 
 	// 第二个参数为是否启用 cuda 详细用法可以参考 yolov5.h 文件
 	std::cout << torch::cuda::is_available() << std::endl;
-	yolo = std::make_unique<yolov5>("../models/yolov5s.cuda.pt", torch::cuda::is_available());
+	yolo = std::make_unique<yolov5>("/home/xac/rhs/Hikcam-using-yolov5-cpp/models/yolov5s.cuda.pt", torch::cuda::is_available());
 	yolo->prediction(torch::rand({1, 3, 640, 640}));
 	// 读取分类标签（我们用的官方的所以这里是 coco 中的分类）
 	// 其实这些代码无所谓哪 只是后面预测出来的框没有标签罢了
