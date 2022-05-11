@@ -1,4 +1,4 @@
-#include "jsondeal.h"
+#include "utils.h"
 
 JsonDeal::JsonDeal()
 {

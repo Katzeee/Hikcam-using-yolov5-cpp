@@ -9,8 +9,7 @@
 #include "HCNetSDK.h"
 #include "LinuxPlayM4.h"
 #include "yolov5.h"
-#include "jsondeal.h"
-#include "utools.h"
+#include "utils.h"
 #include <opencv2/opencv.hpp>
 
 namespace hik

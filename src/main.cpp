@@ -5,7 +5,6 @@
 #include <memory>
 #include "yolov5.h"
 #include "hikcam.h"
-#include "jsondeal.h"
 
 std::unique_ptr<yolov5> yolo;
 std::map<int, std::string> labels;
