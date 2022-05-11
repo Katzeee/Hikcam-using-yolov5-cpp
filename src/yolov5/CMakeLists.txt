@@ -8,6 +8,8 @@ set (SOURCES
 
 add_library(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} ${TORCH_LIBRARIES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/inc)
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES} ${TORCH_LIBRARIES} )
+
+target_include_directories(${PROJECT_NAME} PUBLIC .)
+
