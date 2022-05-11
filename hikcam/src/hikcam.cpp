@@ -28,7 +28,7 @@ HikCam::HikCam(std::string _ipAddr, WORD _servicePort, std::string _userNmae, st
     }
 }
 
-int HikCam::getStream()
+int HikCam::startStream()
 {
     NET_DVR_PREVIEWINFO previewInfo = {0};
     previewInfo.hPlayWnd = 0;  // no window handle

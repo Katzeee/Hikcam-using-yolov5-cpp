@@ -1,6 +1,7 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <ctime>
+#include <chrono>
 #include <memory>
 #include "yolov5.h"
 #include "hikcam.h"
@@ -74,7 +75,7 @@ int main(int argc, char **argv)
 			break;
 	}
 	
-	phikcam->getStream();
+	phikcam->startStream();
 	
 
 	return 0;

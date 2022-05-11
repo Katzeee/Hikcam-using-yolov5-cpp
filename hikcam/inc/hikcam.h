@@ -22,7 +22,8 @@ class HikCam
 public:
     HikCam(std::string _ipAddr, WORD _servicePort, std::string _userNmae, std::string _userPassword);
     ~HikCam(){}
-    int getStream();
+    int startStream();
+    void write2Json();
 
 private:
     HikCam();
