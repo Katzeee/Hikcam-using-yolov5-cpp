@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 	std::shared_ptr<HikCam> phikcam;
 	try
 	{
-		phikcam = std::make_shared<HikCam>(HikCam("192.168.6.96", 8000, "admin", "hfut8888"));
+		phikcam = std::make_shared<HikCam>(HikCam("192.168.1.64", 8000, "admin", "hfut8888"));
 	}
 	catch (const char *&e)
 	{
@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 			break;
 	}
 	
-	phikcam->startStream(0, 33, 0, 1, 1);
+	phikcam->startStream(0, 1, 0, 1, 1);
 	
 
 	return 0;
