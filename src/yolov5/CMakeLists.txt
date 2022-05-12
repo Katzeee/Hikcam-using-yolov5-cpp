@@ -6,7 +6,7 @@ set (SOURCES
 )
 
 
-add_library(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} OBJECT ${SOURCES})
 
 
 target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES} ${TORCH_LIBRARIES} )

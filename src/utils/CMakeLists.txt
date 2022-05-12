@@ -6,9 +6,9 @@ set (SOURCES
 )
 
 
-add_library(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} OBJECT ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC .)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE jsoncpp_object)
+target_link_libraries(${PROJECT_NAME} PUBLIC jsoncpp_object jsoncpp_static)
 

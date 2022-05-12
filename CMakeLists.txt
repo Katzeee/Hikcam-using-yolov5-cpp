@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(cam-detection-yolov5 VERSION 1.0 LANGUAGES CXX)
+#set(CMAKE_CXX_STANDARD 17)
+#set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+project(cam-detection-yolov5 VERSION 1.0 LANGUAGES C CXX)
 
 set(Torch_DIR /home/xac/local/libtorch/share/cmake/Torch)
 find_package(OpenCV REQUIRED)
