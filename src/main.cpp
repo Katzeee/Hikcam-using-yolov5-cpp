@@ -31,7 +31,6 @@ int main(int argc, char **argv)
 	yolo = std::make_unique<yolov5>("/home/xac/rhs/Hikcam-using-yolov5-cpp/models/yolov5s.cuda.pt", torch::cuda::is_available());
 	yolo->prediction(torch::rand({1, 3, 640, 640}));
 	// 读取分类标签（我们用的官方的所以这里是 coco 中的分类）
-	// 其实这些代码无所谓哪 只是后面预测出来的框没有标签罢了
 	std::ifstream f("../models/coco.txt");
 	std::string name = "";
 	int i = 0;
@@ -44,7 +43,7 @@ int main(int argc, char **argv)
 
 	
 	
-	// 用 OpenCV 打开摄像头读取文件（你随便咋样获取图片都OK哪）
+	// 用 OpenCV 打开摄像头读取文件
 	cv::VideoCapture cap = cv::VideoCapture(0);
 	// 设置宽高 无所谓多宽多高后面都会通过一个算法转换为固定宽高的
 	// 固定宽高值应该是你通过YoloV5训练得到的模型所需要的
@@ -64,7 +63,6 @@ int main(int argc, char **argv)
 		}
 
 		// 预测
-		// 简单吧，两行代码预测结果就出来了，封装的还可以吧 嘚瑟
 		clock_t start = clock();
 		std::vector<torch::Tensor> r = yolo->prediction(frame);
 		clock_t ends = clock();
